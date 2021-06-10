@@ -6,7 +6,7 @@
       ".read": true,
       "$comment": {
         ".read": true,
-        ".write": "(auth.uid != null && ((!data.exists() || root.child('users/' + auth.uid + '/hostbot').val() == true || newData.child('hidden').val() == true) && root.child('banned/' + auth.uid).val() != true))",
+        ".write": "(auth.uid != null && (newData.child('chatID').exists() || root.child('users/' + auth.uid + '/hostbot').val() == true)&& ((!data.exists() || root.child('users/' + auth.uid + '/hostbot').val() == true || newData.child('hidden').val() == true) && root.child('banned/' + auth.uid).val() != true))",
         "chatID":{
           ".validate": "root.child('chatData/' + newData.val() ).exists() && !root.child('chatData/' + newData.val()+ '/feedID').exists()"
         },
@@ -50,6 +50,10 @@
       ".read": true,
       ".write": "root.child('users/' + auth.uid + '/hostbot').val() == true"
     },
+    "cardSpecial": {
+      ".read": true,
+      ".write": "root.child('users/' + auth.uid + '/hostbot').val() == true"
+    },
     "theme": {
       ".read": true,
       ".write": "root.child('users/' + auth.uid + '/hostbot').val() == true"
@@ -87,14 +91,20 @@
       ".read": true,
       "$uid": {
         ".read": "($uid == auth.uid || root.child('users/' + auth.uid + '/hostbot').val() == true) && root.child('banned/' + auth.uid).val() != true",
-        ".write": "($uid == auth.uid || root.child('users/' + auth.uid + '/hostbot').val() == true) && root.child('banned/' + auth.uid).val() != true"
+        ".write": "($uid == auth.uid || root.child('users/' + auth.uid + '/hostbot').val() == true) && root.child('banned/' + auth.uid).val() != true",
+        ".indexOn": "cid"
       }
     },
     "playlists": {
       ".read": false,
       "$uid": {
         ".read": "($uid == auth.uid || root.child('users/' + auth.uid + '/hostbot').val() == true) && root.child('banned/' + auth.uid).val() != true",
-        ".write": "($uid == auth.uid || root.child('users/' + auth.uid + '/hostbot').val() == true) && root.child('banned/' + auth.uid).val() != true"
+        ".write": "($uid == auth.uid || root.child('users/' + auth.uid + '/hostbot').val() == true) && root.child('banned/' + auth.uid).val() != true",
+        "$listid": {
+          "list":{
+            ".indexOn": "cid"
+          }
+        }
       }
     },
   	"blocks": {
